@@ -1,0 +1,46 @@
+"use client";
+import { useActionState } from "react";
+import FormButton from "./components/form-btn";
+import FormInput from "./components/form-input";
+import { handleForm } from "./action";
+
+export default function Home() {
+  const [state, formAction] = useActionState(handleForm, {
+    errors: [],
+    ok: false,
+  });
+  return (
+    <div className="w-screen h-screen flex flex-col gap-10 justify-center items-center">
+      <div className="text-4xl">🔥</div>
+      <form action={formAction} className="w-1/2 flex flex-col  gap-7">
+        <FormInput
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          errors={[]}
+        />
+        <FormInput
+          name="username"
+          type="username"
+          placeholder="Username"
+          required
+          errors={[]}
+        />
+        <FormInput
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          errors={state?.errors ?? []}
+        />
+        <FormButton text="Log in" />
+      </form>
+      {state?.ok && (
+        <div className="flex text-black items-center h-12 w-1/2 px-5 font-semibold rounded-2xl bg-green-500">
+          <p>Welcome back!</p>
+        </div>
+      )}
+    </div>
+  );
+}

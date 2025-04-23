@@ -5,34 +5,30 @@ import FormInput from "./components/form-input";
 import { handleForm } from "./action";
 
 export default function Home() {
-  const [state, formAction] = useActionState(handleForm, {
-    errors: [],
-    ok: false,
-  });
+  const [state, formAction] = useActionState(handleForm, null);
   return (
     <div className="w-screen h-screen flex flex-col gap-10 justify-center items-center">
       <div className="text-4xl">🔥</div>
       <form action={formAction} className="w-1/2 flex flex-col  gap-7">
         <FormInput
           name="email"
-          type="email"
           placeholder="Email"
           required
-          errors={[]}
+          errors={state?.fieldErrors.email}
         />
         <FormInput
           name="username"
           type="username"
           placeholder="Username"
           required
-          errors={[]}
+          errors={state?.fieldErrors.username}
         />
         <FormInput
           name="password"
           type="password"
           placeholder="Password"
           required
-          errors={state?.errors ?? []}
+          errors={state?.fieldErrors.password}
         />
         <FormButton text="Log in" />
       </form>

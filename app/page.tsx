@@ -1,42 +1,22 @@
-"use client";
-import { useActionState } from "react";
-import FormButton from "./components/form-btn";
-import FormInput from "./components/form-input";
-import { handleForm } from "./action";
+import Link from "next/link";
 
 export default function Home() {
-  const [state, formAction] = useActionState(handleForm, null);
   return (
-    <div className="w-screen h-screen flex flex-col gap-10 justify-center items-center">
-      <div className="text-4xl">🔥</div>
-      <form action={formAction} className="w-1/2 flex flex-col  gap-7">
-        <FormInput
-          name="email"
-          placeholder="Email"
-          required
-          errors={state?.fieldErrors.email}
-        />
-        <FormInput
-          name="username"
-          type="username"
-          placeholder="Username"
-          required
-          errors={state?.fieldErrors.username}
-        />
-        <FormInput
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-          errors={state?.fieldErrors.password}
-        />
-        <FormButton text="Log in" />
-      </form>
-      {state?.ok && (
-        <div className="flex text-black items-center h-12 w-1/2 px-5 font-semibold rounded-2xl bg-green-500">
-          <p>Welcome back!</p>
+    <div className="flex min-h-screen flex-col items-center justify-between p-6">
+      <div className="flex w-full h-full flex-col items-center gap-3">
+        <Link
+          href="/create-account"
+          className="w-30 rounded-md bg-emerald-300 py-2.5 text-center text-lg font-medium text-black transition-colors hover:bg-orange-400 hover:text-white transform-all"
+        >
+          시작하기
+        </Link>
+        <div className="flex gap-2">
+          <span>이미 계정이 있나요?</span>
+          <Link href="/log-in" className="hover:underline">
+            로그인
+          </Link>
         </div>
-      )}
+      </div>
     </div>
   );
 }

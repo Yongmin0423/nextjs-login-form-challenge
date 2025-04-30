@@ -1,5 +1,7 @@
 "use server";
 import db from "@/lib/db";
+import getSession from "@/lib/session";
+import { z } from "zod";
 
 // 페이지 크기 상수 정의
 const PAGE_SIZE = 5;
@@ -27,6 +29,7 @@ export async function getTweetsPage(
       likes: true,
       created_at: true,
       id: true,
+      description: true,
     },
     skip: skip,
     take: PAGE_SIZE,
@@ -72,5 +75,35 @@ export async function likeTweet(tweetId: number, userId: number) {
       },
     });
     return { liked: true };
+  }
+}
+
+const TweetSchema = z.object({
+  description: z.string({
+    required_error: "Description is required",
+  }),
+});
+
+export async function uploadTweet(prev: any, formData: FormData) {
+  const data = {
+    description: formData.get("description"),
+  };
+  const result = TweetSchema.safeParse(data);
+  if (!result.success) {
+    return result.error.flatten();
+  } else {
+    const session = await getSession();
+    if (session.id) {
+      await db.tweet.create({
+        data: {
+          description: result.data.description,
+          user: {
+            connect: {
+              id: session.id,
+            },
+          },
+        },
+      });
+    }
   }
 }

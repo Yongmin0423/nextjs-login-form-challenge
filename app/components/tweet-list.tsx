@@ -69,7 +69,7 @@ export default function TweetList({ initialTweets }: TweetListProps) {
                 {new Date(tweet.created_at).toLocaleDateString()}
               </span>
             </div>
-            <p className="mb-2">{tweet.userId}</p>
+            <p className="mb-2">{tweet.description}</p>
             <div className="flex items-center gap-2 text-xs text-gray-500">
               <span className="flex items-center gap-1">
                 ❤️ <span>{tweet.likes.length}</span>

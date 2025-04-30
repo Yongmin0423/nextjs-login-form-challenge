@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.TweetScalarFieldEnum = {
   id: 'id',
+  description: 'description',
   created_at: 'created_at',
   updated_at: 'updated_at',
   userId: 'userId'

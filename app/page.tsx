@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 import TweetList from "./components/tweet-list";
+import AddTweet from "./components/add-tweet";
 
 export async function getInitialTweets() {
   const tweets = await db.tweet.findMany({
@@ -13,6 +14,7 @@ export async function getInitialTweets() {
       likes: true,
       created_at: true,
       id: true,
+      description: true,
     },
     take: 5,
     orderBy: {
@@ -38,6 +40,7 @@ export default async function Home() {
     <main className="max-w-2xl mx-auto">
       <div className="p-4">
         <h1 className="text-2xl font-bold mb-6">최신 트윗</h1>
+        <AddTweet />
         <TweetList initialTweets={initialTweets} />
       </div>
     </main>

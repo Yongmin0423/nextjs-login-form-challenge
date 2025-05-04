@@ -41,43 +41,6 @@ export async function getTweetsPage(
   return tweets;
 }
 
-// 좋아요 기능 구현
-export async function likeTweet(tweetId: number, userId: number) {
-  const existingLike = await db.like.findFirst({
-    where: {
-      tweetId,
-      userId,
-    },
-  });
-
-  if (existingLike) {
-    // 이미 좋아요가 있으면 취소
-    await db.like.delete({
-      where: {
-        id: existingLike.id,
-      },
-    });
-    return { liked: false };
-  } else {
-    // 좋아요가 없으면 추가
-    await db.like.create({
-      data: {
-        tweet: {
-          connect: {
-            id: tweetId,
-          },
-        },
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
-    });
-    return { liked: true };
-  }
-}
-
 const TweetSchema = z.object({
   description: z.string({
     required_error: "Description is required",

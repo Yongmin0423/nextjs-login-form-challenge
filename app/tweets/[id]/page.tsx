@@ -3,6 +3,8 @@ import db from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import getSession from "@/lib/session";
+import LikeButton from "@/app/components/like-button";
+import ResponsesSection from "@/app/components/ResponsesSection";
 
 interface TweetDetailPageProps {
   params: {
@@ -17,7 +19,6 @@ async function getTweet(id: string) {
     },
     include: {
       user: true,
-      likes: true,
     },
   });
 
@@ -28,10 +29,60 @@ async function getTweet(id: string) {
   return tweet;
 }
 
+async function getLikeCount(tweetId: number) {
+  const likeCount = await db.like.count({
+    where: {
+      tweetId,
+    },
+  });
+  return likeCount;
+}
+
+async function isLikedByUser(tweetId: number) {
+  const session = await getSession();
+  if (!session?.id) return false;
+
+  const like = await db.like.findUnique({
+    where: {
+      id: {
+        userId: session.id,
+        tweetId,
+      },
+    },
+  });
+
+  return !!like;
+}
+
+async function getResponses(tweetId: number) {
+  const responses = await db.response.findMany({
+    where: {
+      tweetId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  return responses;
+}
+
 export default async function TweetDetailPage({
   params,
 }: TweetDetailPageProps) {
   const tweet = await getTweet(params.id);
+  const likeCount = await getLikeCount(tweet.id);
+  const isLiked = await isLikedByUser(tweet.id);
+  const responses = await getResponses(tweet.id);
+  const session = await getSession();
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -54,27 +105,35 @@ export default async function TweetDetailPage({
           </div>
         </div>
 
-        <p className="text-lg mb-4">
-          {tweet.userId} {/* 실제 트윗 내용이 없어서 userId를 표시 */}
-        </p>
+        <p className="text-lg mb-4">{tweet.description}</p>
 
-        <div className="flex items-center gap-4 text-gray-500">
-          <span className="flex items-center gap-1">
-            ❤️ <span>{tweet.likes.length}개의 좋아요</span>
-          </span>
+        <div className="flex items-center gap-4">
+          {session?.id ? (
+            <LikeButton
+              tweetId={tweet.id}
+              initialLikeCount={likeCount}
+              initialIsLiked={isLiked}
+            />
+          ) : (
+            <span className="flex items-center gap-1 text-gray-500">
+              ❤️ <span>{likeCount}개의 좋아요</span>
+            </span>
+          )}
         </div>
       </div>
 
-      {/* 여기에 나중에 답글 작성 폼과 답글 목록을 추가 */}
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="font-medium mb-2">답글</h3>
-        <p className="text-gray-500">답글 기능은 곧 추가될 예정입니다.</p>
+      {/* 댓글 섹션 */}
+      <div className="bg-[#0A0A0A] p-4 rounded-lg border-white border   ">
+        <h3 className="font-medium mb-4">댓글</h3>
+        <ResponsesSection
+          tweetId={tweet.id}
+          initialResponses={responses}
+          currentUserId={session?.id || null}
+        />
       </div>
     </div>
   );
 }
-
-// 페이지 메타데이터 동적 생성
 export async function generateMetadata({ params }: TweetDetailPageProps) {
   const tweet = await getTweet(params.id);
   return {

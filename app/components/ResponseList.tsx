@@ -1,7 +1,7 @@
 "use client";
 
 import { useOptimistic, startTransition } from "react";
-import { deleteResponse } from "../tweets/actions";
+import { deleteResponse } from "../tweets/[id]/actions";
 
 interface Response {
   id: number;

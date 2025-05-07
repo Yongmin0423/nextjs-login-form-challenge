@@ -1,7 +1,7 @@
 "use client";
 
 import { useOptimistic, useTransition } from "react";
-import { dislikeTweet, likeTweet } from "../tweets/actions";
+import { dislikeTweet, likeTweet } from "../tweets/[id]/actions";
 
 interface LikeButtonProps {
   tweetId: number;

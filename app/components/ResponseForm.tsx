@@ -2,7 +2,7 @@
 
 import { startTransition, useRef } from "react";
 import { useOptimistic } from "react";
-import { addResponse } from "../tweets/actions";
+import { addResponse } from "../tweets/[id]/actions";
 
 interface ResponseFormProps {
   tweetId: number;
@@ -12,9 +12,12 @@ interface ResponseFormProps {
     created_at: Date;
     user: {
       id: number;
-      username: string;
+      username: string | null;
     };
+    userId: number;
   }) => void;
+  currentUserId: number; // currentUserId만 넘겨받으면 됩니다.
+  currentUsername: string | null; // username을 별도로 넘겨받으면 됩니다.
 }
 
 // 새 응답 인터페이스 정의
@@ -25,18 +28,18 @@ interface Response {
   created_at: Date;
   user: {
     id: number;
-    username: string;
+    username: string | null;
   };
+  userId: number;
 }
 
 export default function ResponseForm({
   tweetId,
   onAddResponse,
+  currentUserId,
+  currentUsername, // 이제 여기서 넘겨받은 username을 사용
 }: ResponseFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
-
-  // 세션에서 사용자 정보 가져오기 (여기선 username을 세션에서 가져왔다고 가정)
-  const currentUser = { id: 1, username: "exampleUser" }; // 예시로 설정, 실제로는 세션에서 받아와야 함.
 
   // 낙관적 업데이트
   const [optimisticState, addOptimisticResponse] = useOptimistic(
@@ -63,9 +66,10 @@ export default function ResponseForm({
       response: responseText,
       created_at: new Date(),
       user: {
-        id: currentUser.id,
-        username: currentUser.username, // 임시로 세션 정보에서 가져온 사용자 정보 추가
+        id: currentUserId,
+        username: currentUsername, // 넘겨받은 username을 사용
       },
+      userId: currentUserId,
     };
 
     startTransition(() => {
@@ -83,11 +87,12 @@ export default function ResponseForm({
           id: result.data.id,
           response: result.data.response,
           created_at: result.data.created_at,
-          user: result.data.user, // 서버에서 받은 사용자 정보 포함
+          user: result.data.user,
+          userId: result.data.userId,
         });
       }
     } catch (error) {
-      console.error("Error adding response:", error);
+      console.error("댓글 추가 오류:", error);
     }
 
     return {
@@ -110,7 +115,7 @@ export default function ResponseForm({
         <input type="hidden" name="tweetId" value={tweetId} />
         <textarea
           name="response"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#0A0A0A] "
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#0A0A0A]"
           rows={3}
           placeholder="댓글을 작성해주세요..."
         />

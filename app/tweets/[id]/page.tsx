@@ -1,4 +1,5 @@
 // app/tweets/[id]/page.tsx
+
 import db from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -123,21 +124,23 @@ export default async function TweetDetailPage({
       </div>
 
       {/* 댓글 섹션 */}
-      <div className="bg-[#0A0A0A] p-4 rounded-lg border-white border   ">
+      <div className="bg-[#0A0A0A] p-4 rounded-lg border-white border">
         <h3 className="font-medium mb-4">댓글</h3>
         <ResponsesSection
           tweetId={tweet.id}
           initialResponses={responses}
           currentUserId={session?.id || null}
+          currentUsername={session?.username || null} // 세션에서 username을 가져옴
         />
       </div>
     </div>
   );
 }
-export async function generateMetadata({ params }: TweetDetailPageProps) {
-  const tweet = await getTweet(params.id);
-  return {
-    title: `${tweet.user.username || "사용자"}의 트윗`,
-    description: `트윗 ID: ${tweet.id}`,
-  };
-}
+
+// export async function generateMetadata({ params }: { params: { id: string } }) {
+//   const tweet = await getTweet(params.id);
+//   return {
+//     title: `${tweet.user.username || "사용자"}의 트윗`,
+//     description: `트윗 ID: ${tweet.id}`,
+//   };
+// }

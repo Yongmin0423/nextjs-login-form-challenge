@@ -16,7 +16,7 @@ model User {
   bio        String?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
-  tweet      Tweet[]
+  tweets     Tweet[]
   likes      Like[]
   Response   Response[]
 }

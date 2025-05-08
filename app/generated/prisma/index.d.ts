@@ -1142,13 +1142,13 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    tweet: number
+    tweets: number
     likes: number
     Response: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tweet?: boolean | UserCountOutputTypeCountTweetArgs
+    tweets?: boolean | UserCountOutputTypeCountTweetsArgs
     likes?: boolean | UserCountOutputTypeCountLikesArgs
     Response?: boolean | UserCountOutputTypeCountResponseArgs
   }
@@ -1167,7 +1167,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountTweetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountTweetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TweetWhereInput
   }
 
@@ -1444,7 +1444,7 @@ export namespace Prisma {
     bio?: boolean
     created_at?: boolean
     updated_at?: boolean
-    tweet?: boolean | User$tweetArgs<ExtArgs>
+    tweets?: boolean | User$tweetsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
     Response?: boolean | User$ResponseArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1482,7 +1482,7 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "password" | "email" | "bio" | "created_at" | "updated_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tweet?: boolean | User$tweetArgs<ExtArgs>
+    tweets?: boolean | User$tweetsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
     Response?: boolean | User$ResponseArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1493,7 +1493,7 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      tweet: Prisma.$TweetPayload<ExtArgs>[]
+      tweets: Prisma.$TweetPayload<ExtArgs>[]
       likes: Prisma.$LikePayload<ExtArgs>[]
       Response: Prisma.$ResponsePayload<ExtArgs>[]
     }
@@ -1899,7 +1899,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    tweet<T extends User$tweetArgs<ExtArgs> = {}>(args?: Subset<T, User$tweetArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TweetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tweets<T extends User$tweetsArgs<ExtArgs> = {}>(args?: Subset<T, User$tweetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TweetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Response<T extends User$ResponseArgs<ExtArgs> = {}>(args?: Subset<T, User$ResponseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -2324,9 +2324,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.tweet
+   * User.tweets
    */
-  export type User$tweetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$tweetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Tweet
      */
@@ -5880,7 +5880,7 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
     updated_at?: DateTimeFilter<"User"> | Date | string
-    tweet?: TweetListRelationFilter
+    tweets?: TweetListRelationFilter
     likes?: LikeListRelationFilter
     Response?: ResponseListRelationFilter
   }
@@ -5893,7 +5893,7 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-    tweet?: TweetOrderByRelationAggregateInput
+    tweets?: TweetOrderByRelationAggregateInput
     likes?: LikeOrderByRelationAggregateInput
     Response?: ResponseOrderByRelationAggregateInput
   }
@@ -5909,7 +5909,7 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
     updated_at?: DateTimeFilter<"User"> | Date | string
-    tweet?: TweetListRelationFilter
+    tweets?: TweetListRelationFilter
     likes?: LikeListRelationFilter
     Response?: ResponseListRelationFilter
   }, "id" | "username" | "email">
@@ -6128,7 +6128,7 @@ export namespace Prisma {
     bio?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    tweet?: TweetCreateNestedManyWithoutUserInput
+    tweets?: TweetCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
     Response?: ResponseCreateNestedManyWithoutUserInput
   }
@@ -6141,7 +6141,7 @@ export namespace Prisma {
     bio?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    tweet?: TweetUncheckedCreateNestedManyWithoutUserInput
+    tweets?: TweetUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
     Response?: ResponseUncheckedCreateNestedManyWithoutUserInput
   }
@@ -6153,7 +6153,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    tweet?: TweetUpdateManyWithoutUserNestedInput
+    tweets?: TweetUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
     Response?: ResponseUpdateManyWithoutUserNestedInput
   }
@@ -6166,7 +6166,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    tweet?: TweetUncheckedUpdateManyWithoutUserNestedInput
+    tweets?: TweetUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
     Response?: ResponseUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -6204,7 +6204,7 @@ export namespace Prisma {
     description?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    user: UserCreateNestedOneWithoutTweetInput
+    user: UserCreateNestedOneWithoutTweetsInput
     likes?: LikeCreateNestedManyWithoutTweetInput
     Response?: ResponseCreateNestedManyWithoutTweetInput
   }
@@ -6223,7 +6223,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutTweetNestedInput
+    user?: UserUpdateOneRequiredWithoutTweetsNestedInput
     likes?: LikeUpdateManyWithoutTweetNestedInput
     Response?: ResponseUpdateManyWithoutTweetNestedInput
   }
@@ -6807,9 +6807,9 @@ export namespace Prisma {
     deleteMany?: ResponseScalarWhereInput | ResponseScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutTweetInput = {
-    create?: XOR<UserCreateWithoutTweetInput, UserUncheckedCreateWithoutTweetInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTweetInput
+  export type UserCreateNestedOneWithoutTweetsInput = {
+    create?: XOR<UserCreateWithoutTweetsInput, UserUncheckedCreateWithoutTweetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTweetsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -6841,12 +6841,12 @@ export namespace Prisma {
     connect?: ResponseWhereUniqueInput | ResponseWhereUniqueInput[]
   }
 
-  export type UserUpdateOneRequiredWithoutTweetNestedInput = {
-    create?: XOR<UserCreateWithoutTweetInput, UserUncheckedCreateWithoutTweetInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTweetInput
-    upsert?: UserUpsertWithoutTweetInput
+  export type UserUpdateOneRequiredWithoutTweetsNestedInput = {
+    create?: XOR<UserCreateWithoutTweetsInput, UserUncheckedCreateWithoutTweetsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTweetsInput
+    upsert?: UserUpsertWithoutTweetsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTweetInput, UserUpdateWithoutTweetInput>, UserUncheckedUpdateWithoutTweetInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTweetsInput, UserUpdateWithoutTweetsInput>, UserUncheckedUpdateWithoutTweetsInput>
   }
 
   export type LikeUpdateManyWithoutTweetNestedInput = {
@@ -7246,7 +7246,7 @@ export namespace Prisma {
     tweetId?: IntFilter<"Response"> | number
   }
 
-  export type UserCreateWithoutTweetInput = {
+  export type UserCreateWithoutTweetsInput = {
     username: string
     password: string
     email: string
@@ -7257,7 +7257,7 @@ export namespace Prisma {
     Response?: ResponseCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutTweetInput = {
+  export type UserUncheckedCreateWithoutTweetsInput = {
     id?: number
     username: string
     password: string
@@ -7269,9 +7269,9 @@ export namespace Prisma {
     Response?: ResponseUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutTweetInput = {
+  export type UserCreateOrConnectWithoutTweetsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutTweetInput, UserUncheckedCreateWithoutTweetInput>
+    create: XOR<UserCreateWithoutTweetsInput, UserUncheckedCreateWithoutTweetsInput>
   }
 
   export type LikeCreateWithoutTweetInput = {
@@ -7317,18 +7317,18 @@ export namespace Prisma {
     data: ResponseCreateManyTweetInput | ResponseCreateManyTweetInput[]
   }
 
-  export type UserUpsertWithoutTweetInput = {
-    update: XOR<UserUpdateWithoutTweetInput, UserUncheckedUpdateWithoutTweetInput>
-    create: XOR<UserCreateWithoutTweetInput, UserUncheckedCreateWithoutTweetInput>
+  export type UserUpsertWithoutTweetsInput = {
+    update: XOR<UserUpdateWithoutTweetsInput, UserUncheckedUpdateWithoutTweetsInput>
+    create: XOR<UserCreateWithoutTweetsInput, UserUncheckedCreateWithoutTweetsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutTweetInput = {
+  export type UserUpdateToOneWithWhereWithoutTweetsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutTweetInput, UserUncheckedUpdateWithoutTweetInput>
+    data: XOR<UserUpdateWithoutTweetsInput, UserUncheckedUpdateWithoutTweetsInput>
   }
 
-  export type UserUpdateWithoutTweetInput = {
+  export type UserUpdateWithoutTweetsInput = {
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -7339,7 +7339,7 @@ export namespace Prisma {
     Response?: ResponseUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutTweetInput = {
+  export type UserUncheckedUpdateWithoutTweetsInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -7390,7 +7390,7 @@ export namespace Prisma {
     bio?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    tweet?: TweetCreateNestedManyWithoutUserInput
+    tweets?: TweetCreateNestedManyWithoutUserInput
     Response?: ResponseCreateNestedManyWithoutUserInput
   }
 
@@ -7402,7 +7402,7 @@ export namespace Prisma {
     bio?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    tweet?: TweetUncheckedCreateNestedManyWithoutUserInput
+    tweets?: TweetUncheckedCreateNestedManyWithoutUserInput
     Response?: ResponseUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -7415,7 +7415,7 @@ export namespace Prisma {
     description?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    user: UserCreateNestedOneWithoutTweetInput
+    user: UserCreateNestedOneWithoutTweetsInput
     Response?: ResponseCreateNestedManyWithoutTweetInput
   }
 
@@ -7451,7 +7451,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    tweet?: TweetUpdateManyWithoutUserNestedInput
+    tweets?: TweetUpdateManyWithoutUserNestedInput
     Response?: ResponseUpdateManyWithoutUserNestedInput
   }
 
@@ -7463,7 +7463,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    tweet?: TweetUncheckedUpdateManyWithoutUserNestedInput
+    tweets?: TweetUncheckedUpdateManyWithoutUserNestedInput
     Response?: ResponseUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -7482,7 +7482,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutTweetNestedInput
+    user?: UserUpdateOneRequiredWithoutTweetsNestedInput
     Response?: ResponseUpdateManyWithoutTweetNestedInput
   }
 
@@ -7502,7 +7502,7 @@ export namespace Prisma {
     bio?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    tweet?: TweetCreateNestedManyWithoutUserInput
+    tweets?: TweetCreateNestedManyWithoutUserInput
     likes?: LikeCreateNestedManyWithoutUserInput
   }
 
@@ -7514,7 +7514,7 @@ export namespace Prisma {
     bio?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    tweet?: TweetUncheckedCreateNestedManyWithoutUserInput
+    tweets?: TweetUncheckedCreateNestedManyWithoutUserInput
     likes?: LikeUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -7527,7 +7527,7 @@ export namespace Prisma {
     description?: string | null
     created_at?: Date | string
     updated_at?: Date | string
-    user: UserCreateNestedOneWithoutTweetInput
+    user: UserCreateNestedOneWithoutTweetsInput
     likes?: LikeCreateNestedManyWithoutTweetInput
   }
 
@@ -7563,7 +7563,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    tweet?: TweetUpdateManyWithoutUserNestedInput
+    tweets?: TweetUpdateManyWithoutUserNestedInput
     likes?: LikeUpdateManyWithoutUserNestedInput
   }
 
@@ -7575,7 +7575,7 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    tweet?: TweetUncheckedUpdateManyWithoutUserNestedInput
+    tweets?: TweetUncheckedUpdateManyWithoutUserNestedInput
     likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -7594,7 +7594,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutTweetNestedInput
+    user?: UserUpdateOneRequiredWithoutTweetsNestedInput
     likes?: LikeUpdateManyWithoutTweetNestedInput
   }
 

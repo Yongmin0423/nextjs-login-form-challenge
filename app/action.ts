@@ -57,7 +57,7 @@ export async function uploadTweet(prev: any, formData: FormData) {
   } else {
     const session = await getSession();
     if (session.id) {
-      await db.tweet.create({
+      const tweet = await db.tweet.create({
         data: {
           description: result.data.description,
           user: {
@@ -66,7 +66,12 @@ export async function uploadTweet(prev: any, formData: FormData) {
             },
           },
         },
+        include: {
+          user: true,
+          likes: true,
+        },
       });
+      return { tweet };
     }
   }
 }

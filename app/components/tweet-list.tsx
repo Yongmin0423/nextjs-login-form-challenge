@@ -1,44 +1,25 @@
 "use client";
-import { useState } from "react";
-import { InitialTweets } from "../page";
-import { getTweetsPage } from "../action";
 import { useRouter } from "next/navigation";
+import type { InitialTweets } from "../page";
 
 interface TweetListProps {
   initialTweets: InitialTweets;
+  isLoading: boolean;
+  hasMore: boolean;
+  page: number;
+  onPrevious: () => void;
+  onNext: () => void;
 }
 
-export default function TweetList({ initialTweets }: TweetListProps) {
+export default function TweetList({
+  initialTweets,
+  isLoading,
+  hasMore,
+  page,
+  onPrevious,
+  onNext,
+}: TweetListProps) {
   const router = useRouter();
-  const [tweets, setTweets] = useState(initialTweets);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(0);
-
-  const fetchTweets = async (direction: "next" | "prev") => {
-    const newPage = direction === "next" ? page + 1 : page - 1;
-    if (newPage < 0) return;
-
-    setIsLoading(true);
-    try {
-      const newTweets = await getTweetsPage(direction, page);
-
-      if (newTweets.length === 0) {
-        setHasMore(false);
-      } else {
-        setTweets(newTweets);
-        setPage(newPage);
-        setHasMore(true);
-      }
-    } catch (error) {
-      console.error("트윗 로딩 에러:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const onPrevious = () => fetchTweets("prev");
-  const onNext = () => fetchTweets("next");
 
   const onTweetClick = (tweetId: number) => {
     router.push(`/tweets/${tweetId}`);
@@ -46,13 +27,12 @@ export default function TweetList({ initialTweets }: TweetListProps) {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* 트윗 목록 */}
-      {tweets.length === 0 ? (
+      {initialTweets.length === 0 ? (
         <div className="text-center py-10 text-gray-500">
           표시할 트윗이 없습니다.
         </div>
       ) : (
-        tweets.map((tweet) => (
+        initialTweets.map((tweet) => (
           <div
             key={tweet.id}
             onClick={() => onTweetClick(tweet.id)}
@@ -79,7 +59,6 @@ export default function TweetList({ initialTweets }: TweetListProps) {
         ))
       )}
 
-      {/* 간단한 페이지네이션 컨트롤 */}
       <div className="flex justify-between items-center mt-6">
         <button
           onClick={onPrevious}
@@ -92,7 +71,6 @@ export default function TweetList({ initialTweets }: TweetListProps) {
         >
           ← 이전
         </button>
-
         <button
           onClick={onNext}
           disabled={!hasMore || isLoading}
@@ -106,7 +84,6 @@ export default function TweetList({ initialTweets }: TweetListProps) {
         </button>
       </div>
 
-      {/* 로딩 상태 표시 */}
       {isLoading && (
         <div className="text-center py-4">
           <p className="text-gray-500">로딩 중...</p>

@@ -48,6 +48,7 @@ export const LoginForm = async (prevState: any, formData: FormData) => {
       select: {
         id: true,
         password: true,
+        username: true,
       },
     });
     const ok = await bcrypt.compare(
@@ -57,6 +58,7 @@ export const LoginForm = async (prevState: any, formData: FormData) => {
     if (ok) {
       const session = await getSession();
       session.id = user!.id;
+      session.username = user!.username;
       await session.save();
       redirect("/profile");
     } else {

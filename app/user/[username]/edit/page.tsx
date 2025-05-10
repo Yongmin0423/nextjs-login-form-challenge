@@ -1,7 +1,46 @@
+// app/users/[username]/edit/page.tsx
+import EditProfile from "@/app/components/edit-profile";
+import db from "@/lib/db";
 import getSession from "@/lib/session";
+import { notFound, redirect } from "next/navigation";
+import { updateProfileAction } from "./actions";
 
-export default function EditProfile() {
-  const sessoin = getSession();
+interface EditProfilePageProps {
+  params: { username: string };
+}
 
-  return <h1>edit profile</h1>;
+export default async function EditProfilePage({
+  params,
+}: EditProfilePageProps) {
+  const session = await getSession();
+
+  // 권한 확인: 로그인한 사용자와 수정하려는 프로필의 사용자가 일치하는지
+  if (!session.id || session.username !== params.username) {
+    redirect(`/users/${params.username}`);
+  }
+
+  const user = await db.user.findUnique({
+    where: { username: params.username },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      bio: true,
+    },
+  });
+
+  if (!user) notFound();
+
+  // 필요한 데이터만 선택해서 전달
+  const userInfo = {
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    bio: user.bio || null,
+  };
+
+  // 클라이언트 컴포넌트에 서버 액션을 props로 전달
+  return (
+    <EditProfile user={userInfo} updateProfileAction={updateProfileAction} />
+  );
 }

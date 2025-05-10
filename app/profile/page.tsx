@@ -25,8 +25,8 @@ export default async function Profile() {
   };
   return (
     <div>
-      <h1>welcome! {user.username}!</h1>
-      <h1>your Email: {user.email}</h1>
+      <h1>welcome! {user?.username}!</h1>
+      <h1>your Email: {user?.email}</h1>
       <form action={logOut}>
         <button>Log out</button>
       </form>

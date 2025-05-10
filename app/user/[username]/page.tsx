@@ -37,7 +37,7 @@ export default async function UserProfilePage({ params }: userDetailProps) {
       <p className="text-gray-700 mb-4">{user.bio ?? "소개가 없습니다."}</p>
       {isOwner && (
         <Link
-          href={`/users/${user.username}/edit`}
+          href={`/user/${user.username}/edit`}
           className="text-sm text-blue-500 border px-3 py-1 rounded hover:bg-blue-50"
         >
           ✏️ 수정하기

@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { uploadTweet } from "../action";
 import FormInput from "./form-input";
 import { InitialTweets } from "../page";
+import getSession from "@/lib/session";
 
 interface AddTweetProps {
   onTweetAdd: (tweet: InitialTweets[number]) => void;
@@ -14,6 +15,7 @@ export default function AddTweet({
   onTweetAdd,
   addOptimisticTweet,
 }: AddTweetProps) {
+  const sessionPromise = getSession();
   const [state, formAction] = useActionState(async (prev: any, formData: FormData) => {
     const description = formData.get("description") as string;
     // 낙관적 트윗 생성
@@ -22,10 +24,10 @@ export default function AddTweet({
       description,
       created_at: new Date(),
       updated_at: new Date(),
-      userId: 0, // 임시 userId
+      userId: (await sessionPromise).id || 0,
       user: {
-        id: 0, // 임시 user id
-        username: "현재 사용자",
+        id: (await sessionPromise).id || 0,
+        username: (await sessionPromise).username || "Unknown User",
         email: "", // 임시 이메일
         bio: null,
         created_at: new Date(),

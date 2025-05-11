@@ -55,14 +55,5 @@ export default async function Home() {
 
   const initialTweets = await getInitialTweets();
 
-  return (
-    // <main className="max-w-2xl mx-auto">
-    //   <div className="p-4">
-    //     <h1 className="text-2xl font-bold mb-6">최신 트윗</h1>
-    //     <AddTweet />
-    //     <TweetList initialTweets={initialTweets} />
-    //   </div>
-    // </main>
-    <HomeClient initialTweets={initialTweets} />
-  );
+  return <HomeClient initialTweets={initialTweets} />;
 }

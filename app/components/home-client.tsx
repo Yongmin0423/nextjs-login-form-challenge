@@ -5,6 +5,7 @@ import AddTweet from "./add-tweet";
 import TweetList from "./tweet-list";
 import { getTweetsPage } from "../action";
 import type { InitialTweets } from "../page";
+import Link from "next/link";
 
 interface Props {
   initialTweets: InitialTweets;
@@ -49,7 +50,13 @@ export default function HomeClient({ initialTweets }: Props) {
   return (
     <main className="max-w-2xl mx-auto">
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-6">최신 트윗</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold mb-6">최신 트윗</h1>
+          <Link href="/profile" className="text-orange-300">
+            {" "}
+            Profile로 돌아가기
+          </Link>
+        </div>
         <AddTweet
           onTweetAdd={handleTweetAdd}
           addOptimisticTweet={addOptimisticTweet}

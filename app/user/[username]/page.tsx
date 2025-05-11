@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 type UserDetailProps = {
   params: Promise<{ username: string }>;
-}
+};
 
 export default async function UserProfilePage({ params }: UserDetailProps) {
   const resolvedParams = await params;
@@ -33,6 +33,9 @@ export default async function UserProfilePage({ params }: UserDetailProps) {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
+      <Link href="/" className="text-white-500 hover:text-blue-400">
+        ← 홈으로 돌아가기
+      </Link>
       <h1 className="text-2xl font-bold mb-2">@{user.username}</h1>
       <p className="text-gray-600 mb-1">Email: {user.email}</p>
       <p className="text-gray-700 mb-4">{user.bio ?? "소개가 없습니다."}</p>

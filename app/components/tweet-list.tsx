@@ -36,7 +36,7 @@ export default function TweetList({
           <div
             key={tweet.id}
             onClick={() => onTweetClick(tweet.id)}
-            className="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition"
+            className="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 hover:text-gray-900 transition"
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-sm">

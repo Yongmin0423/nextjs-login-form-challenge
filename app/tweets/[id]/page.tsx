@@ -87,7 +87,7 @@ export default async function TweetDetailPage({
   return (
     <div className="max-w-2xl mx-auto p-4">
       <div className="mb-4">
-        <Link href="/" className="text-blue-500 hover:underline">
+        <Link href="/" className="text-white-500 hover:text-blue-400">
           ← 홈으로 돌아가기
         </Link>
       </div>
@@ -98,7 +98,9 @@ export default async function TweetDetailPage({
             {tweet.user.username?.charAt(0).toUpperCase() || "?"}
           </div>
           <div>
-            <h2 className="font-bold">{tweet.user.username || "사용자"}</h2>
+            <Link href={`/user/${tweet.user.username}`} className="font-bold">
+              {tweet.user.username || "사용자"}
+            </Link>
             <p className="text-sm text-gray-500">
               {new Date(tweet.created_at).toLocaleString()}
             </p>

@@ -15,7 +15,7 @@ export async function likeTweet(tweetId: number) {
       },
     });
     revalidatePath(`/post/${tweetId}`);
-  } catch (e) {}
+  } catch {}
 }
 
 export async function dislikeTweet(tweetId: number) {
@@ -55,8 +55,16 @@ const responseSchema = z.object({
 });
 
 // 댓글 추가 액션
-export async function addResponse(prevState: any, formData: FormData) {
+export async function addResponse(prevState: unknown, formData: FormData) {
   const session = await getSession();
+
+  // 세션 체크
+  if (!session?.id) {
+    return {
+      success: false,
+      error: "로그인이 필요합니다."
+    };
+  }
 
   const data = {
     response: formData.get("response"),

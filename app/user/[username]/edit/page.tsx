@@ -6,21 +6,22 @@ import { notFound, redirect } from "next/navigation";
 import { updateProfileAction } from "./actions";
 
 interface EditProfilePageProps {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
 
 export default async function EditProfilePage({
   params,
 }: EditProfilePageProps) {
   const session = await getSession();
+  const resolvedParams = await params;
 
   // 권한 확인: 로그인한 사용자와 수정하려는 프로필의 사용자가 일치하는지
-  if (!session.id || session.username !== params.username) {
-    redirect(`/users/${params.username}`);
+  if (!session.id || session.username !== resolvedParams.username) {
+    redirect(`/users/${resolvedParams.username}`);
   }
 
   const user = await db.user.findUnique({
-    where: { username: params.username },
+    where: { username: resolvedParams.username },
     select: {
       id: true,
       username: true,

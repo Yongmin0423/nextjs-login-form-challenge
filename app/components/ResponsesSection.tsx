@@ -57,7 +57,8 @@ export default function ResponsesSection({
         <ResponseForm
           tweetId={tweetId}
           onAddResponse={handleAddResponse}
-          currentUser={currentUser!} // 현재 사용자 정보 전달
+          currentUserId={currentUserId}
+          currentUsername={currentUsername}
         />
       ) : (
         <div className="mb-6 p-4 bg-gray-100 rounded-lg text-center">

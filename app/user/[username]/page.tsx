@@ -3,13 +3,14 @@ import getSession from "@/lib/session";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-interface userDetailProps {
-  params: { username: string };
+type UserDetailProps = {
+  params: Promise<{ username: string }>;
 }
 
-export default async function UserProfilePage({ params }: userDetailProps) {
+export default async function UserProfilePage({ params }: UserDetailProps) {
+  const resolvedParams = await params;
   const user = await db.user.findUnique({
-    where: { username: params.username },
+    where: { username: resolvedParams.username },
     include: {
       tweets: {
         include: {
@@ -28,7 +29,7 @@ export default async function UserProfilePage({ params }: userDetailProps) {
 
   console.log("session", session);
 
-  const isOwner = session.username === user.username;
+  const isOwner = session?.username === user.username;
 
   return (
     <div className="max-w-2xl mx-auto p-6">

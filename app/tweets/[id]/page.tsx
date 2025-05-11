@@ -7,11 +7,9 @@ import getSession from "@/lib/session";
 import LikeButton from "@/app/components/like-button";
 import ResponsesSection from "@/app/components/ResponsesSection";
 
-interface TweetDetailPageProps {
-  params: {
-    id: string;
-  };
-}
+type TweetDetailPageProps = {
+  params: Promise<{ id: string }>;
+};
 
 async function getTweet(id: string) {
   const tweet = await db.tweet.findUnique({
@@ -79,7 +77,8 @@ async function getResponses(tweetId: number) {
 export default async function TweetDetailPage({
   params,
 }: TweetDetailPageProps) {
-  const tweet = await getTweet(params.id);
+  const resolvedParams = await params;
+  const tweet = await getTweet(resolvedParams.id);
   const likeCount = await getLikeCount(tweet.id);
   const isLiked = await isLikedByUser(tweet.id);
   const responses = await getResponses(tweet.id);
@@ -137,10 +136,11 @@ export default async function TweetDetailPage({
   );
 }
 
-// export async function generateMetadata({ params }: { params: { id: string } }) {
-//   const tweet = await getTweet(params.id);
-//   return {
-//     title: `${tweet.user.username || "사용자"}의 트윗`,
-//     description: `트윗 ID: ${tweet.id}`,
-//   };
-// }
+export async function generateMetadata({ params }: TweetDetailPageProps) {
+  const resolvedParams = await params;
+  const tweet = await getTweet(resolvedParams.id);
+  return {
+    title: `${tweet.user.username || "사용자"}의 트윗`,
+    description: `트윗 ID: ${tweet.id}`,
+  };
+}

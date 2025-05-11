@@ -14,22 +14,31 @@ export default function AddTweet({
   onTweetAdd,
   addOptimisticTweet,
 }: AddTweetProps) {
-  const [state, formAction] = useActionState(async (prev, formData) => {
+  const [state, formAction] = useActionState(async (prev: any, formData: FormData) => {
     const description = formData.get("description") as string;
     // 낙관적 트윗 생성
     const optimisticTweet = {
       id: Date.now(), // 임시 ID
       description,
-      created_at: new Date().toISOString(),
-      user: { username: "현재 사용자" }, // 임시 사용자 정보
+      created_at: new Date(),
+      updated_at: new Date(),
+      userId: 0, // 임시 userId
+      user: {
+        id: 0, // 임시 user id
+        username: "현재 사용자",
+        email: "", // 임시 이메일
+        bio: null,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
       likes: [],
     };
     addOptimisticTweet(optimisticTweet); // 낙관적 업데이트
     const result = await uploadTweet(prev, formData);
-    if ("tweet" in result) {
+    if (result && "tweet" in result) {
       onTweetAdd(result.tweet); // 서버 트윗으로 부모 상태 업데이트
     }
-    return result;
+    return result || { error: "Failed to upload tweet" };
   }, null);
 
   return (

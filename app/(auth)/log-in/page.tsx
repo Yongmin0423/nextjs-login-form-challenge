@@ -3,6 +3,7 @@ import FormButton from "@/app/components/form-btn";
 import FormInput from "@/app/components/form-input";
 import { useActionState } from "react";
 import { LoginForm } from "./action";
+import Link from "next/link";
 
 export default function Login() {
   const [state, formAction] = useActionState(LoginForm, null);
@@ -14,7 +15,11 @@ export default function Login() {
           name="email"
           placeholder="Email"
           required
-          errors={state?.fieldErrors.email}
+          errors={
+            state?.fieldErrors && "email" in state.fieldErrors
+              ? state.fieldErrors.email
+              : undefined
+          }
         />
         {/* <FormInput
           name="username"
@@ -32,11 +37,7 @@ export default function Login() {
         />
         <FormButton text="Log in" />
       </form>
-      {state?.ok && (
-        <div className="flex text-black items-center h-12 w-1/2 px-5 font-semibold rounded-2xl bg-green-500">
-          <p>Welcome back!</p>
-        </div>
-      )}
+      <Link href="/create-account">Create Account</Link>
     </div>
   );
 }

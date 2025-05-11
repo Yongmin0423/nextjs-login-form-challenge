@@ -79,7 +79,7 @@ export default function ResponseForm({
     // 2. 서버 호출
     try {
       const result = await addResponse(null, formData);
-      if (result && "data" in result) {
+      if (result && "data" in result && result.data) {
         formRef.current?.reset();
 
         // 3. 실제 응답 부모에게 전달 (서버에서 받은 데이터)
@@ -87,7 +87,10 @@ export default function ResponseForm({
           id: result.data.id,
           response: result.data.response,
           created_at: result.data.created_at,
-          user: result.data.user,
+          user: {
+            id: currentUserId,
+            username: currentUsername
+          },
           userId: result.data.userId,
         });
       }

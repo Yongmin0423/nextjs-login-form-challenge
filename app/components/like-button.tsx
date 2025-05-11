@@ -17,7 +17,9 @@ export default function LikeButton({
   const [isPending, startTransition] = useTransition();
 
   // 좋아요 상태를 optimistic하게 관리
-  const [optimisticLikes, setOptimisticLikes] = useOptimistic(
+  type LikeState = { count: number; isLiked: boolean };
+
+  const [optimisticLikes, setOptimisticLikes] = useOptimistic<LikeState, Partial<LikeState>>(
     { count: initialLikeCount, isLiked: initialIsLiked },
     (state, newState) => ({ ...state, ...newState })
   );

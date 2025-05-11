@@ -1,11 +1,32 @@
 // app/page.tsx
+export type InitialTweets = Array<{
+  id: number;
+  description: string | null;
+  created_at: Date;
+  updated_at: Date;
+  userId: number;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+    bio: string | null;
+    created_at: Date;
+    updated_at: Date;
+  };
+  likes: Array<{
+    created_at: Date;
+    userId: number;
+    tweetId: number;
+  }>;
+}>;
+
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 
 import HomeClient from "./components/home-client";
 
-export async function getInitialTweets() {
+async function getInitialTweets() {
   const tweets = await db.tweet.findMany({
     select: {
       updated_at: true,
@@ -24,8 +45,6 @@ export async function getInitialTweets() {
 
   return tweets;
 }
-
-export type InitialTweets = Awaited<ReturnType<typeof getInitialTweets>>;
 
 export default async function Home() {
   // 세션 확인

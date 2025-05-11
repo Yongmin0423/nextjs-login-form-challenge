@@ -1,5 +1,6 @@
 "use client";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import Link from "next/link";
 
 interface FieldErrors {
@@ -47,7 +48,7 @@ export default function EditProfile({
   user,
   updateProfileAction,
 }: EditProfileProps) {
-  const [state, formAction] = useFormState<ActionState | null, FormData>(
+  const [state, formAction] = useActionState<ActionState | null, FormData>(
     updateProfileAction,
     null
   );

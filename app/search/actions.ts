@@ -1,7 +1,7 @@
 "use server";
 import db from "@/lib/db";
 
-export async function searchTweets(prev: any, formData: FormData) {
+export async function searchTweets(prev: unknown, formData: FormData) {
   const keyword = formData.get("keyword")?.toString().trim() ?? "";
 
   if (!keyword) return [];

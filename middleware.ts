@@ -1,24 +1,30 @@
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import getSession from "./lib/session";
 
-const publicPaths = [
-  '/log-in',
-  '/create-account',
-  '/api/auth',
-];
+interface Routes {
+  [key: string]: boolean;
+}
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  
-  // Check if the pathname is in public paths
-  if (publicPaths.some(path => pathname.startsWith(path))) {
-    return NextResponse.next();
-  }
+const publicOnlyUrls: Routes = {
+  "/": true,
+  "/log-in": true,
+  "/create-account": true,
+};
 
-  // Check for auth token in cookies
-  const token = request.cookies.get('auth-token');
-  
-  if (!token) {
-    return NextResponse.redirect(new URL('/log-in', request.url));
+export async function middleware(request: NextRequest) {
+  const session = await getSession();
+  const exists = publicOnlyUrls[request.nextUrl.pathname];
+
+  if (!session.id) {
+    // 로그인하지 않은 사용자가 보호된 페이지에 접근할 때
+    if (!exists) {
+      return NextResponse.redirect(new URL("/log-in", request.url));
+    }
+  } else {
+    // 로그인한 사용자가 public 페이지에 접근할 때
+    if (exists) {
+      return NextResponse.redirect(new URL("/profile", request.url));
+    }
   }
 
   return NextResponse.next();

@@ -1,32 +1,26 @@
-import getSession from "./lib/session";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from 'next/server';
 
-interface Routes {
-  [key: string]: boolean;
-}
+const publicPaths = [
+  '/log-in',
+  '/create-account',
+  '/api/auth',
+];
 
-const publicOnlyUrls: Routes = {
-  "/log-in": true,
-  "/create-account": true,
-};
-
-export async function middleware(request: NextRequest) {
-  const session = await getSession();
-  const exists = publicOnlyUrls[request.nextUrl.pathname];
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   
-  // 이미 로그인 페이지나 회원가입 페이지에 있다면 세션 체크를 하지 않음
-  if (exists) {
-    if (session.id) {
-      return NextResponse.redirect(new URL("/profile", request.url));
-    }
+  // Check if the pathname is in public paths
+  if (publicPaths.some(path => pathname.startsWith(path))) {
     return NextResponse.next();
   }
 
-  // 보호된 페이지에 접근할 때 세션이 없으면 로그인 페이지로 리다이렉트
-  if (!session.id) {
-    return NextResponse.redirect(new URL("/log-in", request.url));
-  }
+  // Check for auth token in cookies
+  const token = request.cookies.get('auth-token');
   
+  if (!token) {
+    return NextResponse.redirect(new URL('/log-in', request.url));
+  }
+
   return NextResponse.next();
 }
 
